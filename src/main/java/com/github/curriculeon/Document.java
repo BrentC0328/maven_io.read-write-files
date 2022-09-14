@@ -39,11 +39,17 @@ public class Document implements DocumentInterface {
 
     @Override
     public void write(Integer lineNumber, String valueToBeWritten) {
-        read(lineNumber);
+        List<String> list = toList();
+        list.set(lineNumber, valueToBeWritten);
+        String contentToWrite = "";
+        for (int i = 0; i < list.size(); i++) {
+            String currentString = list.get(i);
+            contentToWrite += currentString + "\n";
+        }
+        overWrite(contentToWrite);
 
 
     }
-
 
 
     @Override
@@ -58,7 +64,7 @@ public class Document implements DocumentInterface {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String count;
 
-            while ((count = br.readLine()) != null){
+            while ((count = br.readLine()) != null) {
                 System.out.println(count);
                 lineCopy = lineCopy + count + "\n";
             }
@@ -104,6 +110,11 @@ public class Document implements DocumentInterface {
 
     @Override
     public String toString() {
-        return read();
+        return file.getParentFile() +
+                "/" +
+                file.getName() +
+                "{" +
+                read() +
+                "}";
     }
 }
